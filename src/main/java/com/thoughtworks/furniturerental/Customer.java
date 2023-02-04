@@ -17,35 +17,11 @@ public class Customer {
     }
 
     public String statement() {
-        String result = "Rental Record for " + getName() + "\n";
-
-        for (Rental rental : rentals) {
-            //show figures for this rental
-            result += "\t" + rental.getFurniture().getTitle() + "\t" +
-                    rental.amount() + "\n";
-        }
-
-        //add footer lines result
-        result += "Amount owed is " + rentals.totalAmount() + "\n";
-        result += "You earned " + rentals.totalFrequentRenterPoints()
-                + " frequent renter points";
-        return result;
+        return new TextStatement(rentals, name).generate();
     }
 
     public String htmlStatement() {
-        String result = "<h1>Rental Record for <b>" + getName() + "</b></h1>\n";
-
-        for (Rental rental : rentals) {
-            //show figures for this rental
-            result += "\t" + rental.getFurniture().getTitle() + "\t" +
-                    rental.amount() + "\n";
-        }
-
-        //add footer lines result
-        result += "Amount owed is <b>" + rentals.totalAmount() + "</b>\n";
-        result += "You earned <b>" + rentals.totalFrequentRenterPoints()
-                + " frequent renter points</b>";
-        return result;
+        return new HtmlStatement(rentals, name).generate();
     }
-}
 
+}
