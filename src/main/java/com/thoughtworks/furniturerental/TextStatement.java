@@ -14,7 +14,7 @@ class TextStatement {
 
         for (Rental rental : rentals) {
             //show figures for this rental
-            result += "\t" + rental.getFurniture().getTitle() + "\t" +
+            result += "\t" + rental.title() + "\t" +
                     rental.amount() + "\n";
         }
 
@@ -24,4 +24,5 @@ class TextStatement {
                 + " frequent renter points";
         return result;
     }
+
 }

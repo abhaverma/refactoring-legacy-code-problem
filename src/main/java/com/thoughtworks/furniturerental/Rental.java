@@ -43,4 +43,8 @@ public class Rental {
                 daysRented > 1) frequentRenterPoints++;
         return frequentRenterPoints;
     }
+
+    String title() {
+        return getFurniture().getTitle();
+    }
 }

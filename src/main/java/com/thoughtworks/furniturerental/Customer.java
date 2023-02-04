@@ -1,8 +1,8 @@
 package com.thoughtworks.furniturerental;
 
 public class Customer {
-    private String name;
-    private Rentals rentals = new Rentals();
+    private final String name;
+    private final Rentals rentals = new Rentals();
 
     public Customer(String name) {
         this.name = name;
