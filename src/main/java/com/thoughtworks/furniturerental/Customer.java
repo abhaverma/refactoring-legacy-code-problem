@@ -3,6 +3,8 @@ package com.thoughtworks.furniturerental;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.thoughtworks.furniturerental.Furniture.*;
+
 public class Customer {
     private String name;
     private List<Rental> rentals = new ArrayList<Rental>();
@@ -23,35 +25,19 @@ public class Customer {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
         String result = "Rental Record for " + getName() + "\n";
-        for (Rental each : rentals) {
-            double thisAmount = 0;
-            //determine amounts for each line
-            switch (each.getFurniture().getPriceCode()) {
-                case Furniture.REGULAR:
-                    thisAmount += 200;
-                    if (each.getDaysRented() > 2)
-                        thisAmount += (each.getDaysRented() - 2) * 150;
-                    break;
-                case Furniture.NEW_LAUNCH:
-                    thisAmount += each.getDaysRented() * 300;
-                    break;
-                case Furniture.CHILDREN:
-                    thisAmount += 150;
-                    if (each.getDaysRented() > 3)
-                        thisAmount += (each.getDaysRented() - 3) * 150;
-                    break;
-            }
+        for (Rental rental : rentals) {
+            double amount = amountFor(rental);
             // add frequent renter points
             frequentRenterPoints++;
             // add bonus for a two days new launch rental
-            if ((each.getFurniture().getPriceCode() == Furniture.NEW_LAUNCH)
+            if ((rental.getFurniture().getPriceCode() == NEW_LAUNCH)
                     &&
-                    each.getDaysRented() > 1) frequentRenterPoints++;
+                    rental.getDaysRented() > 1) frequentRenterPoints++;
 
             //show figures for this rental
-            result += "\t" + each.getFurniture().getTitle() + "\t" +
-                    thisAmount + "\n";
-            totalAmount += thisAmount;
+            result += "\t" + rental.getFurniture().getTitle() + "\t" +
+                    amount + "\n";
+            totalAmount += amount;
         }
 
         //add footer lines result
@@ -59,6 +45,26 @@ public class Customer {
         result += "You earned " + frequentRenterPoints
                 + " frequent renter points";
         return result;
+    }
+
+    private double amountFor(Rental rental) {
+        double amount = 0;
+        switch (rental.getFurniture().getPriceCode()) {
+            case REGULAR:
+                amount += 200;
+                if (rental.getDaysRented() > 2)
+                    amount += (rental.getDaysRented() - 2) * 150;
+                break;
+            case NEW_LAUNCH:
+                amount += rental.getDaysRented() * 300;
+                break;
+            case CHILDREN:
+                amount += 150;
+                if (rental.getDaysRented() > 3)
+                    amount += (rental.getDaysRented() - 3) * 150;
+                break;
+        }
+        return amount;
     }
 }
 
