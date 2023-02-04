@@ -20,24 +20,27 @@ public class Customer {
     }
 
     public String statement() {
-        double totalAmount = 0;
-        int totalFrequentRenterPoints = 0;
         String result = "Rental Record for " + getName() + "\n";
-        for (Rental rental : rentals) {
-            double amount = rental.amount();
-            totalFrequentRenterPoints += rental.frequentRenterPoints();
 
+        for (Rental rental : rentals) {
             //show figures for this rental
             result += "\t" + rental.getFurniture().getTitle() + "\t" +
-                    amount + "\n";
-            totalAmount += amount;
+                    rental.amount() + "\n";
         }
 
         //add footer lines result
-        result += "Amount owed is " + totalAmount + "\n";
-        result += "You earned " + totalFrequentRenterPoints
+        result += "Amount owed is " + totalAmount() + "\n";
+        result += "You earned " + totalFrequentRenterPoints()
                 + " frequent renter points";
         return result;
+    }
+
+    private double totalAmount() {
+        return rentals.stream().mapToDouble(Rental::amount).sum();
+    }
+
+    private int totalFrequentRenterPoints() {
+        return rentals.stream().mapToInt(Rental::frequentRenterPoints).sum();
     }
 
 }
