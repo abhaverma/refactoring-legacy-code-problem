@@ -34,4 +34,25 @@ public class CustomerTest {
                 "Amount owed is 2000.0\n" +
                 "You earned 4 frequent renter points", result);
     }
+
+
+    @Test
+    public void htmlStatementForRegularNewLaunchChildrenRentalFor4Days() {
+        Customer john = new Customer("John");
+        Rental regular = new Rental(new Furniture("Sofa", REGULAR), 4);
+        Rental newlaunch = new Rental(new Furniture("Bed", NEW_LAUNCH), 4);
+        Rental children = new Rental(new Furniture("Cradle", CHILDREN), 4);
+        john.addRental(regular);
+        john.addRental(newlaunch);
+        john.addRental(children);
+
+        String result = john.htmlStatement();
+
+        assertEquals("<h1>Rental Record for <b>John</b></h1>\n" +
+                "\tSofa\t500.0\n" +
+                "\tBed\t1200.0\n" +
+                "\tCradle\t300.0\n" +
+                "Amount owed is <b>2000.0</b>\n" +
+                "You earned <b>4 frequent renter points</b>", result);
+    }
 }
