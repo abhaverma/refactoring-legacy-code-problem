@@ -23,16 +23,11 @@ public class Customer {
 
     public String statement() {
         double totalAmount = 0;
-        int frequentRenterPoints = 0;
+        int totalFrequentRenterPoints = 0;
         String result = "Rental Record for " + getName() + "\n";
         for (Rental rental : rentals) {
             double amount = amountFor(rental);
-            // add frequent renter points
-            frequentRenterPoints++;
-            // add bonus for a two days new launch rental
-            if ((rental.getFurniture().getPriceCode() == NEW_LAUNCH)
-                    &&
-                    rental.getDaysRented() > 1) frequentRenterPoints++;
+            totalFrequentRenterPoints += frequentRenterPointsFor(rental);
 
             //show figures for this rental
             result += "\t" + rental.getFurniture().getTitle() + "\t" +
@@ -42,9 +37,19 @@ public class Customer {
 
         //add footer lines result
         result += "Amount owed is " + totalAmount + "\n";
-        result += "You earned " + frequentRenterPoints
+        result += "You earned " + totalFrequentRenterPoints
                 + " frequent renter points";
         return result;
+    }
+
+    private int frequentRenterPointsFor(Rental rental) {
+        // add frequent renter points
+        int frequentRenterPoints = 1;
+        // add bonus for a two days new launch rental
+        if ((rental.getFurniture().getPriceCode() == NEW_LAUNCH)
+                &&
+                rental.getDaysRented() > 1) frequentRenterPoints++;
+        return frequentRenterPoints;
     }
 
     private double amountFor(Rental rental) {
