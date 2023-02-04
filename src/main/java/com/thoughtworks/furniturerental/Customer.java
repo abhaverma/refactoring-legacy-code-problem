@@ -1,11 +1,8 @@
 package com.thoughtworks.furniturerental;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Customer {
     private String name;
-    private List<Rental> rentals = new ArrayList<Rental>();
+    private Rentals rentals = new Rentals();
 
     public Customer(String name) {
         this.name = name;
@@ -29,18 +26,10 @@ public class Customer {
         }
 
         //add footer lines result
-        result += "Amount owed is " + totalAmount() + "\n";
-        result += "You earned " + totalFrequentRenterPoints()
+        result += "Amount owed is " + rentals.totalAmount() + "\n";
+        result += "You earned " + rentals.totalFrequentRenterPoints()
                 + " frequent renter points";
         return result;
-    }
-
-    private double totalAmount() {
-        return rentals.stream().mapToDouble(Rental::amount).sum();
-    }
-
-    private int totalFrequentRenterPoints() {
-        return rentals.stream().mapToInt(Rental::frequentRenterPoints).sum();
     }
 
 }
